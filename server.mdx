@@ -1,0 +1,200 @@
+---
+title: 'Server'
+---
+
+
+## Technologie
+
+For our server we choose to built it in Nest js a progressive back end framework\
+For our database we choose to use MongoDB a no sql DB\
+The server was built following a microservice architecture with one database per service and one app per service \
+Our server use an hybrid communication tools:
+- GRPc for architecture microservice:
+  - Efficient for a clean architecture and great speed performance
+- TCP for service microservice:
+  - Efficent for genericity
+<CardGroup>
+
+<Card title="Nest Js documentation" icon="server" href="https://nestjs.com/">
+  Check the nest Js documentation
+</Card>
+
+<Card
+  title="MongoDb Documentation"
+  icon="database"
+  href="https://www.mongodb.com/docs/"
+>
+  Check the MongoDB documentation
+</Card>
+</CardGroup>
+
+## Host
+
+For hosting our web site and our server we are using a droplet of digital ocean\
+We set up a nginx reverse proxy to accept https request
+<Card title="Digital Ocean Documentation" icon="digital-ocean" href="https://www.digitalocean.com/">
+  Check the nest Digital Ocean documentation
+</Card>
+
+
+## Api gateway
+
+The api gateway is our main server that will receive all the request from the front and dispatch it to the targeted service
+
+## Microservices
+- Architecture microservices
+
+<AccordionGroup>
+  <Accordion icon="user" title="Authentification">
+    This microservices is used to for user management\
+    It allow to create an user, log in a user and store it in the database \
+    The authentification logic is done through [JWT token](https://jwt.io/) and cookie\
+    This Service is build in [GRPC](https://grpc.io/), take a look at `proto/auth.proto`
+  </Accordion>
+  <Accordion icon="gear" title="set-area">
+    This microservice is used to let the front interact with the area and service\
+    It is build through [CRUD](https://www.crowdstrike.com/fr-fr/cybersecurity-101/observability/crud/) endpoint\
+    This Service is build in [GRPC](https://grpc.io/), take a look at `proto/set-area.proto`
+  </Accordion>
+  <Accordion icon="wand-magic-sparkles" title="msg-broker">
+    This microservice is used to access service  through [message pattern](https://docs.nestjs.com/microservices/basics)\
+    It allows to trigger an reaction, set up an action, get information from a service \
+    This Service is build in [TCP](https://fr.wikipedia.org/wiki/Transmission_Control_Protocol)
+  </Accordion>
+</AccordionGroup>
+
+- Services Microservices
+
+<AccordionGroup>
+  <Accordion icon="youtube" title="Youtube">
+    This microservices is used to handle [youtube](https://www.youtube.com/) service\
+    This Service is build in [TCP](https://fr.wikipedia.org/wiki/Transmission_Control_Protocol)
+    You need to connect with your google account through Oauth2
+    - Action: 
+      - when a playlist is created
+      - when a playlist is removed
+    - Reaction:
+      - remove a playlist
+      - create a playlist
+      - edit a playlist title
+  </Accordion>
+  <Accordion icon="github" title="github">
+    This microservices is used to handle [github](https://github.com/) service\
+    This Service is build in [TCP](https://fr.wikipedia.org/wiki/Transmission_Control_Protocol)
+    You need to connect with your github account through Oauth2
+    - Action: 
+      - when a new new push is detected
+      - when a new issue is detected
+      - when a new branch is detected
+      - when a new repo is created
+    - Reaction:
+      - create a repository
+      - create an issue
+  </Accordion>
+  <Accordion icon="spotify" title="spotify">
+    This microservices is used to handle [spotify](https://open.spotify.com/intl-fr) service\
+    This Service is build in [TCP](https://fr.wikipedia.org/wiki/Transmission_Control_Protocol)
+    You need to connect with your spotify account through Oauth2
+    - Action: 
+      - when a playlist created
+      - when a song is added to a playlist
+      - when detect a new follower to a playlist
+      - when someone follow your spotify accoutn
+    - Reaction:
+      - toggle your play/pause statement
+      - goes to the next song
+      - create a spotify playlist
+      - pause your music
+      - play your music
+      - goes to the previous music
+      - set the repeat mode
+      - toggle the shuffle mode
+      - add a song to your queue
+      - add a song to a playlist
+  </Accordion>
+  <Accordion icon="discord" title="discord">
+    This microservices is used to handle [discord](https://discord.com/) service\
+    This Service is build in [TCP](https://fr.wikipedia.org/wiki/Transmission_Control_Protocol)
+    You need connect for us to set up a bot
+    - Action: 
+      - when receive a discord message in the channel of your choice
+    - Reaction:
+      - send a discord message in the channel of your choice
+  </Accordion>
+  <Accordion icon="gamepad" title="LeagueOfLegend">
+    This microservices is used to handle [leagueOfLegend](https://www.leagueoflegends.com/fr-fr/) service\
+    This Service is build in [TCP](https://fr.wikipedia.org/wiki/Transmission_Control_Protocol)
+    You need to connect with your riot account through Oauth2
+    - Action: 
+      - occurs when you finished a league of legend game (jungle diff)
+  </Accordion>
+  <Accordion icon="tiktok" title="tiktok">
+    This microservices is used to handle [tiktok](https://www.tiktok.com/fr/) service\
+    This Service is build in [TCP](https://fr.wikipedia.org/wiki/Transmission_Control_Protocol)
+    You need to connect with your tiktok account through Oauth2
+    - Action: 
+      - detect when you post a tiktok
+  </Accordion>
+  <Accordion icon="microsoft" title="outlook">
+    This microservices is used to handle [outlook](https://www.microsoft.com/fr-fr/microsoft-365/outlook/email-and-calendar-software-microsoft-outlook) service\
+    This Service is build in [TCP](https://fr.wikipedia.org/wiki/Transmission_Control_Protocol)
+    You need to connect with your microsoft account through Oauth2
+    - Action: 
+      - send a mail with your outlook account
+  </Accordion>
+  <Accordion icon="twitter" title="twitter">
+    This microservices is used to handle [outlook](https://x.com/) service\
+    This Service is build in [TCP](https://fr.wikipedia.org/wiki/Transmission_Control_Protocol)
+    You need to connect with your twitter account through Oauth2
+    - Reaction: 
+      - post a tweet with your twitter account
+  </Accordion>
+  <Accordion icon="phone" title="twillio">
+    This microservices is used to handle [twillio](https://www.twilio.com/fr-fr) service\
+    This Service is build in [TCP](https://fr.wikipedia.org/wiki/Transmission_Control_Protocol)
+    No connection needed
+    - Reaction: 
+      - send a message to who you want
+  </Accordion>
+  <Accordion icon="envelopes" title="mailjet">
+    This microservices is used to handle [mailjet](https://www.mailjet.com/fr/) service\
+    This Service is build in [TCP](https://fr.wikipedia.org/wiki/Transmission_Control_Protocol)
+    No connection needed
+    - Reaction: 
+      - send a email to someone
+  </Accordion>
+  <Accordion icon="docker" title="docker">
+    This microservices is used to handle [docker](https://hub.docker.com/) service\
+    This Service is build in [TCP](https://fr.wikipedia.org/wiki/Transmission_Control_Protocol)
+    No connection needed
+    - Action: 
+      - when you push a new image on dockerhub
+      - when you delete an image on dockerhub
+      - when you push a new pullimage on dockerhub
+      - when you modify an image on dockerhub
+  </Accordion>
+  <Accordion icon="cards" title="deckofcard">
+    This microservices is used to handle [deck of card](https://deck.of.cards/) service\
+    This Service is build in [TCP](https://fr.wikipedia.org/wiki/Transmission_Control_Protocol)
+    No connection needed
+    - Reaction: 
+      - send a email to someone
+  </Accordion>
+  <Accordion icon="wind" title="weather">
+    This microservices is used to handle [discord](https://openweathermap.org/) service\
+    This Service is build in [TCP](https://fr.wikipedia.org/wiki/Transmission_Control_Protocol)
+    No connection needed
+    - Action: 
+      - when the temperature decrease
+      - when the temperature increase
+      - when the humidity increase
+      - when the humidity decrease
+      - when the visibility increase
+      - when the visibility decrease
+      - when the wind speed increase
+      - when the wind speed decrease
+      - when the weather description changed
+    - Reaction:
+      - get meteo information in a city
+  </Accordion>
+</AccordionGroup>
