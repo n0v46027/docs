@@ -46,20 +46,65 @@ The api gateway is our main server that will receive all the request from the fr
 
 <AccordionGroup>
   <Accordion icon="user" title="Authentification">
-    This microservices is used to for user management\
-    It allow to create an user, log in a user and store it in the database \
-    The authentification logic is done through [JWT token](https://jwt.io/) and cookie\
-    This Service is build in [GRPC](https://grpc.io/), take a look at `proto/auth.proto`
+    This microservice is used for user management.  
+    It allows the creation of users, user login, and stores user information in the database.  
+    The authentication logic uses [JWT tokens](https://jwt.io/) and cookies.  
+    This Service is built with [gRPC](https://grpc.io/), see `proto/auth.proto` for details.
+
+    ## Auth Schema
+    ```mermaid
+    sequenceDiagram
+      participant Client
+      participant APIGateway
+      participant AuthService
+
+      Client->>APIGateway: Send Auth Request
+      APIGateway->>AuthService: Call Auth Service via gRPC
+      AuthService-->>APIGateway: Return a JWT token in a cookie
+      APIGateway-->>Client: Forward Auth Response
+    ```
   </Accordion>
+
   <Accordion icon="gear" title="set-area">
-    This microservice is used to let the front interact with the area and service\
-    It is build through [CRUD](https://www.crowdstrike.com/fr-fr/cybersecurity-101/observability/crud/) endpoint\
-    This Service is build in [GRPC](https://grpc.io/), take a look at `proto/set-area.proto`
+    This microservice allows the frontend to interact with areas and services  
+    It is built with [CRUD](https://www.crowdstrike.com/fr-fr/cybersecurity-101/observability/crud/) endpoints.  
+    This Service uses [gRPC](https://grpc.io/), see `proto/set-area.proto` for details.
+
+    ## SetArea Schema
+    ```mermaid
+    sequenceDiagram
+      participant Client
+      participant APIGateway
+      participant Set-area
+      participant Msg-broker
+
+      Client->>APIGateway: Send Auth Request
+      APIGateway->>Set-area: Call Auth Service via gRPC
+      Set-area->>Msg-broker: Call set_up area on the required action
+      Set-area-->>APIGateway: Return status of the action
+      APIGateway-->>Client: Forward Response
+    ```
   </Accordion>
+
   <Accordion icon="wand-magic-sparkles" title="msg-broker">
-    This microservice is used to access service  through [message pattern](https://docs.nestjs.com/microservices/basics)\
-    It allows to trigger an reaction, set up an action, get information from a service \
-    This Service is build in [TCP](https://fr.wikipedia.org/wiki/Transmission_Control_Protocol)
+    This microservice provides access to services through a [message pattern](https://docs.nestjs.com/microservices/basics).  
+    It allows for triggering reactions, setting up actions, and retrieving information from a service.  
+    This Service is built with [TCP](https://fr.wikipedia.org/wiki/Transmission_Control_Protocol).
+
+    ## MsgBroker Schema
+    ```mermaid
+    sequenceDiagram
+      participant Service
+      participant MsgBroker
+      participant Database
+      participant Reaction
+
+      Service->>MsgBroker: Action triggered with input data
+      MsgBroker->>MsgBroker: Process action with inputs and outputs
+      MsgBroker->>Database: Fetch area configurations
+      Database-->>MsgBroker: Return area configuration
+      MsgBroker->>Reaction: Trigger corresponding reaction
+    ```
   </Accordion>
 </AccordionGroup>
 
