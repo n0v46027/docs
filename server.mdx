@@ -31,10 +31,39 @@ Our server use an hybrid communication tools:
 ## Host
 
 For hosting our web site and our server we are using a droplet of digital ocean\
-We set up a nginx reverse proxy to accept https request
+In the droplet all the project is built using docker\
+We set up a nginx reverse proxy to accept https request, all request starting with "api" will be redirect to the server and the rest will be redirect to the web client\
+Each service is map to a specific port but the main one you need to know is: 
+- server -> listen to 8080.
+- web client -> listen to 8081.
+<CardGroup>
 <Card title="Digital Ocean Documentation" icon="digital-ocean" href="https://www.digitalocean.com/">
-  Check the nest Digital Ocean documentation
+  Check the Digital Ocean documentation
 </Card>
+<Card title="Docker" icon="docker" href="https://www.docker.com/">
+  Check the Docker documentation
+</Card>
+</CardGroup>
+
+## CI/CD
+
+<AccordionGroup>
+  <Accordion icon="gear" title="push">
+  Since our main repo is an epitech repo we needed a mirror to set up secret so this action push the content of main 
+  </Accordion>
+  <Accordion icon="gear" title="Deploy">
+  This action deploy the code to the droplet:
+  - decrypt all the secret previously encrypted with aes 256
+  - build all the docker images and push them to docker hub registery
+  - ssh into the droplet and restart the server with `docker-compose down` && `docker-compose up -d`
+  </Accordion>
+  <Accordion icon="gear" title="restart Server">
+  This is a dispatch action that need to be triggered manually, we built to improve independancy of all the team, it displays the log of the server then restart
+  </Accordion>
+  <Accordion icon="gear" title="unit test">
+  This action run our unit test implement in `jest`
+  </Accordion>
+</AccordionGroup>
 
 
 ## Api gateway
@@ -243,3 +272,4 @@ The api gateway is our main server that will receive all the request from the fr
       - get meteo information in a city
   </Accordion>
 </AccordionGroup>
+

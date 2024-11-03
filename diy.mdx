@@ -1,0 +1,47 @@
+---
+title: 'Add your contribution'
+---
+
+
+## Add your contribution
+
+If you want to contribute to Octoarea here are the steps to follow:
+
+step 1. Clone our project
+
+```bash
+git clone https://github.com/<octoarea>
+```
+
+step 2. Generate a microservice
+
+```bash
+./services.sh <servicename> <port>
+```
+this script will generate a microservice and will link it to our architecture 
+
+step 3. Update Docker
+
+A dockerfile will be created with the script you will only need to update the `dockercompose.yml` at the root of the project
+
+step 4. Dependencies
+
+A secret file will be generated in the secret directory if you need any secret
+
+step 5. Database
+
+OctoaArea use mongodb for our DB but you are free to use the one of your choice as long that you are following our norme
+You will need to update our Service Database to add your service
+
+step 6. Implement your Service
+
+The script will generate you a bunch of nest resource :
+- Action: you will set_up your action here
+- Cron: if you don't use a webhook you will make your cron check here
+- Reaction: you will implement your action here
+
+The msg broker will automatically trigger your action but when in your cron you want to call the broker when your action is trigerred you need to follow our norme checkout other services !
+
+step 7. Deploy your changed
+
+when you are done push your change to github this will triggered our CI/CD pipeline and deploy your change
